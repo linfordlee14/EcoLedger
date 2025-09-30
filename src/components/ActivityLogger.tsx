@@ -123,14 +123,18 @@ export const ActivityLogger = ({ onBack, onActivityLogged }: ActivityLoggerProps
       if (error) throw error;
 
       // Update user profile totals
-      const { error: profileError } = await supabase.rpc('update_user_totals', {
-        user_id: user?.id,
-        carbon_delta: carbonAmount,
-        points_delta: greenPoints
-      });
+      try {
+        const { error: profileError } = await supabase.rpc('update_user_totals', {
+          user_id: user?.id,
+          carbon_delta: carbonAmount,
+          points_delta: greenPoints
+        });
 
-      if (profileError) {
-        console.error('Error updating profile totals:', profileError);
+        if (profileError) {
+          console.error('Error updating profile totals:', profileError);
+        }
+      } catch (rpcError) {
+        console.error('RPC function error:', rpcError);
       }
 
       onActivityLogged();

@@ -150,7 +150,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_user_totals: {
+        Args: { carbon_delta: number; points_delta: number; user_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
