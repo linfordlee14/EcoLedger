@@ -14,7 +14,137 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activity_categories: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          emission_factor: number
+          id: string
+          name: string
+          unit: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          emission_factor: number
+          id?: string
+          name: string
+          unit: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          emission_factor?: number
+          id?: string
+          name?: string
+          unit?: string
+        }
+        Relationships: []
+      }
+      carbon_emissions: {
+        Row: {
+          activity_description: string
+          carbon_amount: number
+          category_id: string
+          created_at: string | null
+          green_points_earned: number | null
+          id: string
+          logged_at: string | null
+          quantity: number
+          user_id: string
+        }
+        Insert: {
+          activity_description: string
+          carbon_amount: number
+          category_id: string
+          created_at?: string | null
+          green_points_earned?: number | null
+          id?: string
+          logged_at?: string | null
+          quantity: number
+          user_id: string
+        }
+        Update: {
+          activity_description?: string
+          carbon_amount?: number
+          category_id?: string
+          created_at?: string | null
+          green_points_earned?: number | null
+          id?: string
+          logged_at?: string | null
+          quantity?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "carbon_emissions_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "activity_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leaderboard: {
+        Row: {
+          id: string
+          rank: number | null
+          total_footprint: number | null
+          total_points: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          rank?: number | null
+          total_footprint?: number | null
+          total_points?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          id?: string
+          rank?: number | null
+          total_footprint?: number | null
+          total_points?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          display_name: string | null
+          email: string | null
+          id: string
+          total_carbon_footprint: number | null
+          total_green_points: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          total_carbon_footprint?: number | null
+          total_green_points?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          total_carbon_footprint?: number | null
+          total_green_points?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
