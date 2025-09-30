@@ -122,18 +122,26 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header className="glass-effect border-b sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Leaf className="h-8 w-8 text-green-600 mr-3" />
-              <h1 className="text-2xl font-bold text-gray-900">EcoLedger</h1>
-            </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Welcome, {profile?.display_name}</span>
-              <Button variant="outline" size="sm" onClick={signOut}>
+              <div className="gradient-bg p-2 rounded-xl shadow-[var(--shadow-soft)]">
+                <Leaf className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gradient">EcoLedger</h1>
+                <p className="text-sm text-muted-foreground">Carbon tracking made simple</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-6">
+              <div className="text-right">
+                <p className="text-sm font-medium">Welcome back,</p>
+                <p className="text-lg font-semibold text-primary">{profile?.display_name}</p>
+              </div>
+              <Button variant="outline" size="sm" onClick={signOut} className="hover-lift">
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
               </Button>
@@ -142,39 +150,63 @@ export const Dashboard = () => {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Hero Stats Section */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-foreground mb-2">Your Environmental Impact</h2>
+          <p className="text-muted-foreground text-lg">Track, improve, and celebrate your eco-friendly choices</p>
+        </div>
+
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Carbon Footprint</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <Card className="card-enhanced hover-lift overflow-hidden group">
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Carbon Footprint</CardTitle>
+                <div className="p-2 rounded-lg bg-destructive/10 group-hover:bg-destructive/20 transition-colors">
+                  <TrendingUp className="h-5 w-5 text-destructive" />
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{profile?.total_carbon_footprint?.toFixed(2)} kg CO₂e</div>
-              <p className="text-xs text-muted-foreground">Lifetime emissions tracked</p>
+              <div className="text-3xl font-bold text-foreground mb-1">
+                {profile?.total_carbon_footprint?.toFixed(2)} <span className="text-lg text-muted-foreground">kg CO₂e</span>
+              </div>
+              <p className="text-sm text-muted-foreground">Lifetime emissions tracked</p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Green Points</CardTitle>
-              <Trophy className="h-4 w-4 text-muted-foreground" />
+          <Card className="card-enhanced hover-lift overflow-hidden group">
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Green Points</CardTitle>
+                <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                  <Trophy className="h-5 w-5 text-primary" />
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">{profile?.total_green_points}</div>
-              <p className="text-xs text-muted-foreground">Points earned from eco actions</p>
+              <div className="text-3xl font-bold text-primary mb-1">
+                {profile?.total_green_points} <span className="text-lg text-muted-foreground">pts</span>
+              </div>
+              <p className="text-sm text-muted-foreground">Earned from eco actions</p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Activities Logged</CardTitle>
-              <Leaf className="h-4 w-4 text-muted-foreground" />
+          <Card className="card-enhanced hover-lift overflow-hidden group">
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Activities</CardTitle>
+                <div className="p-2 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
+                  <Leaf className="h-5 w-5 text-accent" />
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{recentActivities.length}</div>
-              <p className="text-xs text-muted-foreground">Recent activities</p>
+              <div className="text-3xl font-bold text-foreground mb-1">
+                {recentActivities.length} <span className="text-lg text-muted-foreground">logged</span>
+              </div>
+              <p className="text-sm text-muted-foreground">Recent activities</p>
             </CardContent>
           </Card>
         </div>
@@ -182,15 +214,20 @@ export const Dashboard = () => {
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Recent Activities */}
-          <div className="lg:col-span-2 space-y-6">
-            <Card>
-              <CardHeader>
+          <div className="lg:col-span-2 space-y-8">
+            <Card className="card-enhanced">
+              <CardHeader className="pb-6">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle>Recent Activities</CardTitle>
-                    <CardDescription>Your latest carbon footprint entries</CardDescription>
+                  <div className="space-y-1">
+                    <CardTitle className="text-2xl font-bold flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <Leaf className="h-6 w-6 text-primary" />
+                      </div>
+                      Recent Activities
+                    </CardTitle>
+                    <CardDescription className="text-base">Track your latest environmental actions</CardDescription>
                   </div>
-                  <Button onClick={() => setShowActivityLogger(true)}>
+                  <Button onClick={() => setShowActivityLogger(true)} className="hover-lift gradient-bg">
                     <Plus className="h-4 w-4 mr-2" />
                     Log Activity
                   </Button>
@@ -199,36 +236,46 @@ export const Dashboard = () => {
               <CardContent>
                 {recentActivities.length > 0 ? (
                   <div className="space-y-4">
-                    {recentActivities.map((activity) => (
-                      <div key={activity.id} className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex items-center space-x-3">
-                          {getCategoryIcon(activity.category.name)}
-                          <div>
-                            <p className="font-medium">{activity.activity_description}</p>
-                            <p className="text-sm text-gray-500">
-                              {new Date(activity.logged_at).toLocaleDateString()}
-                            </p>
+                    {recentActivities.map((activity, index) => (
+                      <div key={activity.id} className="group p-6 border rounded-xl hover:shadow-[var(--shadow-medium)] transition-all duration-300 hover:border-primary/20 bg-card/50">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-4">
+                            <div className="p-3 rounded-xl bg-primary/5 group-hover:bg-primary/10 transition-colors">
+                              {getCategoryIcon(activity.category.name)}
+                            </div>
+                            <div className="space-y-1">
+                              <p className="font-semibold text-lg">{activity.activity_description}</p>
+                              <p className="text-sm text-muted-foreground flex items-center gap-2">
+                                <span>{new Date(activity.logged_at).toLocaleDateString()}</span>
+                                <span>•</span>
+                                <span className="capitalize">{activity.category.name}</span>
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-semibold">{activity.carbon_amount.toFixed(2)} kg CO₂e</p>
-                          {activity.green_points_earned > 0 && (
-                            <Badge variant="secondary" className="text-green-600">
-                              +{activity.green_points_earned} points
-                            </Badge>
-                          )}
+                          <div className="text-right space-y-2">
+                            <p className="text-xl font-bold text-foreground">{activity.carbon_amount.toFixed(2)} <span className="text-sm text-muted-foreground">kg CO₂e</span></p>
+                            {activity.green_points_earned > 0 && (
+                              <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                                +{activity.green_points_earned} points
+                              </Badge>
+                            )}
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-8">
-                    <Leaf className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-500">No activities logged yet</p>
+                  <div className="text-center py-16">
+                    <div className="p-6 rounded-full bg-primary/5 w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                      <Leaf className="h-12 w-12 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">No activities yet</h3>
+                    <p className="text-muted-foreground mb-6">Start tracking your environmental impact today</p>
                     <Button 
-                      className="mt-4" 
+                      className="gradient-bg hover-lift" 
                       onClick={() => setShowActivityLogger(true)}
                     >
+                      <Plus className="h-4 w-4 mr-2" />
                       Log Your First Activity
                     </Button>
                   </div>
