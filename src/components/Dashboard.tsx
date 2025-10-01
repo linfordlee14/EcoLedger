@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { Layout } from '@/components/Layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,8 +13,7 @@ import {
   Plus, 
   Car, 
   Zap, 
-  Utensils,
-  LogOut
+  Utensils
 } from 'lucide-react';
 import { ActivityLogger } from './ActivityLogger';
 import { EmissionsChart } from './EmissionsChart';
@@ -39,7 +39,7 @@ interface RecentActivity {
 }
 
 export const Dashboard = () => {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const { toast } = useToast();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [recentActivities, setRecentActivities] = useState<RecentActivity[]>([]);
@@ -108,12 +108,12 @@ export const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
-        <div className="text-center">
-          <Leaf className="h-12 w-12 text-green-600 mx-auto mb-4 animate-pulse" />
-          <p className="text-lg text-gray-600">Loading your dashboard...</p>
+      <Layout title="Dashboard" description="Track your environmental impact">
+        <div className="text-center py-8">
+          <Leaf className="h-12 w-12 text-primary mx-auto mb-4 animate-pulse" />
+          <p className="text-lg text-muted-foreground">Loading your dashboard...</p>
         </div>
-      </div>
+      </Layout>
     );
   }
 
@@ -122,43 +122,9 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="glass-effect border-b sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="gradient-bg p-2 rounded-xl shadow-[var(--shadow-soft)]">
-                <Leaf className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gradient">EcoLedger</h1>
-                <p className="text-sm text-muted-foreground">Carbon tracking made simple</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-6">
-              <div className="text-right">
-                <p className="text-sm font-medium">Welcome back,</p>
-                <p className="text-lg font-semibold text-primary">{profile?.display_name}</p>
-              </div>
-              <Button variant="outline" size="sm" onClick={signOut} className="hover-lift">
-                <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Hero Stats Section */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground mb-2">Your Environmental Impact</h2>
-          <p className="text-muted-foreground text-lg">Track, improve, and celebrate your eco-friendly choices</p>
-        </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    <Layout title="Your Environmental Impact" description="Track, improve, and celebrate your eco-friendly choices">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           <Card className="card-enhanced hover-lift overflow-hidden group">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
@@ -291,7 +257,6 @@ export const Dashboard = () => {
             <Leaderboard />
           </div>
         </div>
-      </div>
-    </div>
+    </Layout>
   );
 };
