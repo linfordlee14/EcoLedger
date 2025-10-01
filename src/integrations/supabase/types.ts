@@ -41,6 +41,36 @@ export type Database = {
         }
         Relationships: []
       }
+      blockchain_rewards: {
+        Row: {
+          created_at: string
+          earned_date: string
+          id: string
+          reward_type: string
+          token_amount: number
+          transaction_hash: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          earned_date?: string
+          id?: string
+          reward_type: string
+          token_amount: number
+          transaction_hash?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          earned_date?: string
+          id?: string
+          reward_type?: string
+          token_amount?: number
+          transaction_hash?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       carbon_emissions: {
         Row: {
           activity_description: string
@@ -84,6 +114,78 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      carbon_goals: {
+        Row: {
+          created_at: string
+          current_amount: number
+          goal_type: string
+          id: string
+          target_amount: number
+          target_date: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_amount?: number
+          goal_type?: string
+          id?: string
+          target_amount: number
+          target_date: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_amount?: number
+          goal_type?: string
+          id?: string
+          target_amount?: number
+          target_date?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      carbon_nfts: {
+        Row: {
+          blockchain_status: string
+          carbon_amount: number
+          created_at: string
+          id: string
+          issue_date: string
+          metadata: Json | null
+          token_id: string
+          user_id: string
+          verification_hash: string
+        }
+        Insert: {
+          blockchain_status?: string
+          carbon_amount: number
+          created_at?: string
+          id?: string
+          issue_date?: string
+          metadata?: Json | null
+          token_id: string
+          user_id: string
+          verification_hash: string
+        }
+        Update: {
+          blockchain_status?: string
+          carbon_amount?: number
+          created_at?: string
+          id?: string
+          issue_date?: string
+          metadata?: Json | null
+          token_id?: string
+          user_id?: string
+          verification_hash?: string
+        }
+        Relationships: []
       }
       leaderboard: {
         Row: {
