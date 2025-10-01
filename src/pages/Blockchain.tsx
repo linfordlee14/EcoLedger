@@ -45,7 +45,7 @@ export const Blockchain = () => {
     try {
       // Fetch NFTs
       const { data: nftData, error: nftError } = await supabase
-        .from('carbon_nfts')
+        .from('carbon_nfts' as any)
         .select('*')
         .eq('user_id', user?.id)
         .order('issue_date', { ascending: false });
@@ -54,16 +54,16 @@ export const Blockchain = () => {
 
       // Fetch rewards
       const { data: rewardData, error: rewardError } = await supabase
-        .from('blockchain_rewards')
+        .from('blockchain_rewards' as any)
         .select('*')
         .eq('user_id', user?.id)
         .order('earned_date', { ascending: false });
 
       if (rewardError) throw rewardError;
 
-      setNfts(nftData || []);
-      setRewards(rewardData || []);
-      setTotalTokens((rewardData || []).reduce((sum, reward) => sum + reward.token_amount, 0));
+      setNfts((nftData as unknown as CarbonNFT[]) || []);
+      setRewards((rewardData as unknown as BlockchainReward[]) || []);
+      setTotalTokens(((rewardData as unknown as BlockchainReward[]) || []).reduce((sum, reward) => sum + reward.token_amount, 0));
     } catch (error) {
       console.error('Error fetching blockchain data:', error);
       toast({
@@ -102,7 +102,7 @@ export const Blockchain = () => {
       const verificationHash = `0x${Math.random().toString(16).substr(2, 64)}`;
 
       const { error } = await supabase
-        .from('carbon_nfts')
+        .from('carbon_nfts' as any)
         .insert({
           user_id: user?.id,
           token_id: tokenId,
@@ -125,7 +125,7 @@ export const Blockchain = () => {
 
       // Award tokens for minting
       await supabase
-        .from('blockchain_rewards')
+        .from('blockchain_rewards' as any)
         .insert({
           user_id: user?.id,
           token_amount: 100,
