@@ -42,14 +42,14 @@ export const Goals = () => {
 
   const fetchGoals = async () => {
     try {
-      const { data, error } = await supabase
-        .from('carbon_goals' as any)
+      const result = await (supabase as any)
+        .from('carbon_goals')
         .select('*')
         .eq('user_id', user?.id)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      setGoals((data as any as Goal[]) || []);
+      if (result.error) throw result.error;
+      setGoals((result.data || []) as Goal[]);
     } catch (error) {
       console.error('Error fetching goals:', error);
       toast({
@@ -73,8 +73,8 @@ export const Goals = () => {
     }
 
     try {
-      const { error } = await supabase
-        .from('carbon_goals' as any)
+      const { error } = await (supabase as any)
+        .from('carbon_goals')
         .insert({
           user_id: user?.id,
           title: newGoal.title,

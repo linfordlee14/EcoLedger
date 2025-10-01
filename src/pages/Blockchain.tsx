@@ -44,26 +44,29 @@ export const Blockchain = () => {
   const fetchBlockchainData = async () => {
     try {
       // Fetch NFTs
-      const { data: nftData, error: nftError } = await supabase
-        .from('carbon_nfts' as any)
+      const nftResult = await (supabase as any)
+        .from('carbon_nfts')
         .select('*')
         .eq('user_id', user?.id)
         .order('issue_date', { ascending: false });
 
-      if (nftError) throw nftError;
+      if (nftResult.error) throw nftResult.error;
 
       // Fetch rewards
-      const { data: rewardData, error: rewardError } = await supabase
-        .from('blockchain_rewards' as any)
+      const rewardResult = await (supabase as any)
+        .from('blockchain_rewards')
         .select('*')
         .eq('user_id', user?.id)
         .order('earned_date', { ascending: false });
 
-      if (rewardError) throw rewardError;
+      if (rewardResult.error) throw rewardResult.error;
 
-      setNfts((nftData as unknown as CarbonNFT[]) || []);
-      setRewards((rewardData as unknown as BlockchainReward[]) || []);
-      setTotalTokens(((rewardData as unknown as BlockchainReward[]) || []).reduce((sum, reward) => sum + reward.token_amount, 0));
+      const nftData = (nftResult.data || []) as CarbonNFT[];
+      const rewardData = (rewardResult.data || []) as BlockchainReward[];
+      
+      setNfts(nftData);
+      setRewards(rewardData);
+      setTotalTokens(rewardData.reduce((sum, reward) => sum + reward.token_amount, 0));
     } catch (error) {
       console.error('Error fetching blockchain data:', error);
       toast({
@@ -101,8 +104,8 @@ export const Blockchain = () => {
       const tokenId = `ECO-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       const verificationHash = `0x${Math.random().toString(16).substr(2, 64)}`;
 
-      const { error } = await supabase
-        .from('carbon_nfts' as any)
+      const { error } = await (supabase as any)
+        .from('carbon_nfts')
         .insert({
           user_id: user?.id,
           token_id: tokenId,
@@ -124,8 +127,8 @@ export const Blockchain = () => {
       if (error) throw error;
 
       // Award tokens for minting
-      await supabase
-        .from('blockchain_rewards' as any)
+      await (supabase as any)
+        .from('blockchain_rewards')
         .insert({
           user_id: user?.id,
           token_amount: 100,
