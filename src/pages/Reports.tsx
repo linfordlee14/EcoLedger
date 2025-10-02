@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { BarChart3, Calendar, TrendingUp, TrendingDown, Leaf, Award } from "lucide-react";
+import { BarChart3, Calendar, TrendingUp, TrendingDown, Leaf, Award, FileText } from "lucide-react";
 import { EmissionsChart } from "@/components/EmissionsChart";
 
 interface MonthlyData {
@@ -24,6 +24,11 @@ export const Reports = () => {
   const { user } = useAuth();
   const [monthlyData, setMonthlyData] = useState<MonthlyData[]>([]);
   const [categoryBreakdown, setCategoryBreakdown] = useState<CategoryBreakdown[]>([]);
+  const [currentMonthStats, setCurrentMonthStats] = useState({
+    total_emissions: 0,
+    total_points: 0,
+    activity_count: 0
+  });
   const [totalStats, setTotalStats] = useState({
     total_emissions: 0,
     total_activities: 0,
@@ -47,27 +52,42 @@ export const Reports = () => {
         .select(`
           carbon_amount,
           logged_at,
+          green_points_earned,
           category:activity_categories(name)
         `)
         .eq('user_id', user?.id);
 
       if (emissionsError) throw emissionsError;
 
-      // Process monthly data
-      const monthlyMap = new Map<string, { total: number; count: number }>();
+      // Process monthly data and current month data
+      const monthlyMap = new Map<string, { total: number; count: number; points: number }>();
       const categoryMap = new Map<string, number>();
       let totalEmissions = 0;
+      
+      const currentDate = new Date();
+      const currentMonthKey = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
+      let currentMonthEmissions = 0;
+      let currentMonthPoints = 0;
+      let currentMonthCount = 0;
 
       emissions?.forEach((emission) => {
         const date = new Date(emission.logged_at);
         const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
         
         // Monthly aggregation
-        const existing = monthlyMap.get(monthKey) || { total: 0, count: 0 };
+        const existing = monthlyMap.get(monthKey) || { total: 0, count: 0, points: 0 };
         monthlyMap.set(monthKey, {
           total: existing.total + emission.carbon_amount,
-          count: existing.count + 1
+          count: existing.count + 1,
+          points: existing.points + (emission.green_points_earned || 0)
         });
+
+        // Current month stats
+        if (monthKey === currentMonthKey) {
+          currentMonthEmissions += emission.carbon_amount;
+          currentMonthPoints += emission.green_points_earned || 0;
+          currentMonthCount += 1;
+        }
 
         // Category aggregation
         const categoryName = emission.category?.name || 'Unknown';
@@ -110,6 +130,12 @@ export const Reports = () => {
         best_month: bestMonth?.month || "",
         worst_month: worstMonth?.month || ""
       });
+      
+      setCurrentMonthStats({
+        total_emissions: currentMonthEmissions,
+        total_points: currentMonthPoints,
+        activity_count: currentMonthCount
+      });
 
     } catch (error) {
       console.error('Error fetching reports data:', error);
@@ -140,6 +166,26 @@ export const Reports = () => {
   return (
     <Layout title="Reports" description="Detailed analysis of your carbon footprint">
       <div className="space-y-8">
+        {/* This Month's Report Card */}
+        <div className="bg-card rounded-2xl p-6 shadow-md border">
+          <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+            <FileText className="h-5 w-5 text-primary" />
+            This Month's Report
+          </h2>
+          <p className="text-muted-foreground mb-2">
+            Total CO₂e: <span className="font-semibold text-destructive">{currentMonthStats.total_emissions.toFixed(1)} kg</span>
+          </p>
+          <p className="text-muted-foreground mb-2">
+            Points Earned: <span className="font-semibold text-primary">{currentMonthStats.total_points} pts</span>
+          </p>
+          <p className="text-muted-foreground mb-4">
+            Activities Logged: <span className="font-semibold text-accent">{currentMonthStats.activity_count}</span>
+          </p>
+          <button className="mt-4 bg-foreground text-background px-4 py-2 rounded-xl hover:opacity-90 transition-opacity">
+            📄 Export Report
+          </button>
+        </div>
+
         {/* Summary Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card className="card-enhanced">
