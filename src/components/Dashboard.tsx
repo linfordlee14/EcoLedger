@@ -145,6 +145,28 @@ export const Dashboard = () => {
         </div>
       </div>
 
+      {/* Quick Actions */}
+      <div className="flex gap-4 mb-8">
+        <button 
+          onClick={() => setShowActivityLogger(true)}
+          className="bg-primary text-primary-foreground px-4 py-2 rounded-xl shadow hover:opacity-90 transition-opacity"
+        >
+          🚗 Car Trip
+        </button>
+        <button 
+          onClick={() => setShowActivityLogger(true)}
+          className="bg-accent text-accent-foreground px-4 py-2 rounded-xl shadow hover:opacity-90 transition-opacity"
+        >
+          ⚡ Electricity
+        </button>
+        <button 
+          onClick={() => setShowActivityLogger(true)}
+          className="bg-secondary text-secondary-foreground px-4 py-2 rounded-xl shadow hover:opacity-90 transition-opacity"
+        >
+          ♻️ Recycling
+        </button>
+      </div>
+
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Recent Activities */}
