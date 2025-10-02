@@ -124,58 +124,26 @@ export const Dashboard = () => {
   return (
     <Layout title="Your Environmental Impact" description="Track, improve, and celebrate your eco-friendly choices">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <Card className="card-enhanced hover-lift overflow-hidden group">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Carbon Footprint</CardTitle>
-                <div className="p-2 rounded-lg bg-destructive/10 group-hover:bg-destructive/20 transition-colors">
-                  <TrendingUp className="h-5 w-5 text-destructive" />
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-foreground mb-1">
-                {profile?.total_carbon_footprint?.toFixed(2)} <span className="text-lg text-muted-foreground">kg CO₂e</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Lifetime emissions tracked</p>
-            </CardContent>
-          </Card>
-
-          <Card className="card-enhanced hover-lift overflow-hidden group">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Green Points</CardTitle>
-                <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  <Trophy className="h-5 w-5 text-primary" />
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-primary mb-1">
-                {profile?.total_green_points} <span className="text-lg text-muted-foreground">pts</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Earned from eco actions</p>
-            </CardContent>
-          </Card>
-
-          <Card className="card-enhanced hover-lift overflow-hidden group">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Activities</CardTitle>
-                <div className="p-2 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
-                  <Leaf className="h-5 w-5 text-accent" />
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-foreground mb-1">
-                {recentActivities.length} <span className="text-lg text-muted-foreground">logged</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Recent activities</p>
-            </CardContent>
-          </Card>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+        <div className="bg-card rounded-2xl p-4 shadow-md text-center border">
+          <h3 className="text-muted-foreground text-sm mb-2">Lifetime emissions tracked</h3>
+          <p className="text-2xl font-bold text-destructive">
+            {profile?.total_carbon_footprint?.toFixed(2) || '0.00'} kg CO₂e
+          </p>
         </div>
+        <div className="bg-card rounded-2xl p-4 shadow-md text-center border">
+          <h3 className="text-muted-foreground text-sm mb-2">Points earned</h3>
+          <p className="text-2xl font-bold text-primary">
+            {profile?.total_green_points || 0} pts
+          </p>
+        </div>
+        <div className="bg-card rounded-2xl p-4 shadow-md text-center border">
+          <h3 className="text-muted-foreground text-sm mb-2">Recent activities</h3>
+          <p className="text-2xl font-bold text-accent">
+            {recentActivities.length} logged
+          </p>
+        </div>
+      </div>
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
