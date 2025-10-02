@@ -6,9 +6,9 @@ import {
   Leaf, 
   LogOut, 
   Target, 
-  BarChart3, 
+  FileText, 
   User, 
-  Coins,
+  Link as LinkIcon,
   Home
 } from "lucide-react";
 
@@ -25,8 +25,8 @@ export const Layout = ({ children, title, description }: LayoutProps) => {
   const navigation = [
     { name: "Dashboard", href: "/", icon: Home },
     { name: "Goals", href: "/goals", icon: Target },
-    { name: "Reports", href: "/reports", icon: BarChart3 },
-    { name: "Blockchain", href: "/blockchain", icon: Coins },
+    { name: "Reports", href: "/reports", icon: FileText },
+    { name: "Blockchain", href: "/blockchain", icon: LinkIcon },
     { name: "Profile", href: "/profile", icon: User },
   ];
 
@@ -48,19 +48,21 @@ export const Layout = ({ children, title, description }: LayoutProps) => {
               </div>
             </div>
             <div className="flex items-center space-x-6">
-              <nav className="hidden md:flex space-x-1">
+              <nav className="hidden md:flex gap-6 items-center">
                 {navigation.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <Link key={item.name} to={item.href}>
-                      <Button
-                        variant={isActive(item.href) ? "default" : "ghost"}
-                        size="sm"
-                        className="flex items-center space-x-2"
-                      >
-                        <Icon className="h-4 w-4" />
-                        <span>{item.name}</span>
-                      </Button>
+                    <Link 
+                      key={item.name} 
+                      to={item.href}
+                      className={`flex items-center gap-2 transition-colors ${
+                        isActive(item.href) 
+                          ? "text-primary font-medium" 
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <Icon size={18} />
+                      {item.name}
                     </Link>
                   );
                 })}
