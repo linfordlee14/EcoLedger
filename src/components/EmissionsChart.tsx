@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface EmissionData {
   date: string;
@@ -99,35 +99,14 @@ export const EmissionsChart = () => {
         <CardDescription>Your daily carbon footprint tracking</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-64">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="date" 
-                fontSize={12}
-                tick={{ fontSize: 10 }}
-              />
-              <YAxis 
-                fontSize={12}
-                tick={{ fontSize: 10 }}
-                label={{ value: 'kg CO₂e', angle: -90, position: 'insideLeft' }}
-              />
-              <Tooltip 
-                formatter={(value, name) => [
-                  `${value} kg CO₂e`, 
-                  'Daily Emissions'
-                ]}
-                labelFormatter={(label) => `Date: ${label}`}
-              />
-              <Bar 
-                dataKey="emissions" 
-                fill="#16a34a" 
-                radius={[4, 4, 0, 0]}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={chartData}>
+            <XAxis dataKey="date" />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="emissions" stroke="#16a34a" strokeWidth={2} />
+          </LineChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   );
