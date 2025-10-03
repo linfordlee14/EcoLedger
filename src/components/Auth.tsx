@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, Leaf } from 'lucide-react';
 
 export const Auth = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,6 +38,7 @@ export const Auth = () => {
         title: "Account created!",
         description: "You can now start tracking your carbon footprint.",
       });
+      navigate('/');
     } catch (error: any) {
       toast({
         title: "Error",
@@ -63,6 +66,7 @@ export const Auth = () => {
         title: "Welcome back!",
         description: "Successfully signed in to EcoLedger.",
       });
+      navigate('/');
     } catch (error: any) {
       toast({
         title: "Error",
