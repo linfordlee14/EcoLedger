@@ -1,73 +1,105 @@
-# Welcome to your Lovable project
+🌍 EcoLedger
 
-## Project info
+EcoLedger is a sustainability tracker that uses real-time data and blockchain transparency to make eco-friendly actions engaging, measurable, and trustworthy.
 
-**URL**: https://lovable.dev/projects/e2f27cd3-69ad-433f-b9b4-843ac8d455b8
+Users can log sustainable activities, earn points, view leaderboards in real time, export reports, and track their progress toward personal and community goals. With blockchain integration, EcoLedger ensures transparency, accessibility, and trust in sustainability data.
 
-## How can I edit this code?
+✨ Features
 
-There are several ways of editing your application.
+🔐 User Authentication (Supabase) – secure login/logout
 
-**Use Lovable**
+📊 Dashboard – view logged activities, CO₂ savings, and points
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e2f27cd3-69ad-433f-b9b4-843ac8d455b8) and start prompting.
+🏆 Real-Time Leaderboard – instantly updated using Supabase realtime
 
-Changes made via Lovable will be committed automatically to this repo.
+📑 Reports – export sustainability actions as CSV
 
-**Use your preferred IDE**
+🎯 Goals Tracking – set and monitor eco goals with progress bars
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+👤 Profile Page – manage user details and logout securely
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+⛓ Blockchain Placeholder – future integration for transparent carbon data & eco-credit tokenization
 
-Follow these steps:
+🛠 Tech Stack
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Frontend: React + TailwindCSS
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Backend / Realtime: Supabase (Postgres + Auth + Realtime)
 
-# Step 3: Install the necessary dependencies.
-npm i
+Deployment: Lovable (with environment variables configured)
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+Blockchain: Placeholder integration for transparent sustainability data
+
+🚀 Getting Started
+
+Clone the repo and set up locally:
+
+git clone https://github.com/your-username/ecoledger.git
+cd ecoledger
+npm install
+
+
+Create a .env file based on the provided .env.example:
+
+cp .env.example .env
+
+
+Fill in your Supabase project keys:
+
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+
+
+Run locally:
+
 npm run dev
-```
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The app will be available at http://localhost:3000.
 
-**Use GitHub Codespaces**
+📂 Project Structure
+EcoLedger/
+ ├── components/       # Reusable UI components
+ ├── pages/            # Main routes (Dashboard, Reports, Profile, etc.)
+ ├── utils/            # Helper functions (CSV export, Supabase client)
+ ├── public/           # Assets
+ ├── .env.example      # Example environment variables
+ ├── README.md         # Project documentation
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+📹 Demo Video
 
-## What technologies are used for this project?
+[🔗 Add your video link here (YouTube unlisted or Loom)]
 
-This project is built with:
+The video (max 4 minutes) walks through:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Logging in
 
-## How can I deploy this project?
+Adding eco activities
 
-Simply open [Lovable](https://lovable.dev/projects/e2f27cd3-69ad-433f-b9b4-843ac8d455b8) and click on Share -> Publish.
+Viewing real-time leaderboard updates
 
-## Can I connect a custom domain to my Lovable project?
+Exporting reports
 
-Yes, you can!
+Blockchain transparency explanation
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+🌱 Theme Connection
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Transparency & Trust: Blockchain integration ensures sustainability data cannot be altered, providing confidence to communities and organizations.
+
+Accessibility: Users can track and share progress easily with real-time updates.
+
+Sustainability: EcoLedger motivates individuals and groups to adopt eco-friendly behaviors while making the impact measurable.
+
+👥 Team
+
+Developer: Linford Musiyambodza – Founder, Linfy Tech Solutions
+
+🌐 Website: linfordlee14.github.io/linford-musiyambodza-portfolio
+
+💼 LinkedIn: linkedin.com/in/linfordlee14
+
+📧 Email: linfordlee14@gmail.com
+
+📜 License
+
+This project is open-source under the MIT License
