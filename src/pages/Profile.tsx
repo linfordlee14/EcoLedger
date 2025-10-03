@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { User, Mail, Calendar, Trophy, Leaf, Target, Save } from "lucide-react";
+import { User, Mail, Calendar, Trophy, Leaf, Target, Save, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface Profile {
   id: string;
@@ -20,8 +21,9 @@ interface Profile {
 }
 
 export const Profile = () => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [editData, setEditData] = useState({ display_name: "" });
@@ -112,6 +114,24 @@ export const Profile = () => {
     if (points >= 500) return { level: "Green Champion", color: "default" };
     if (points >= 100) return { level: "Eco Warrior", color: "secondary" };
     return { level: "Green Starter", color: "secondary" };
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out.",
+      });
+      navigate('/auth');
+    } catch (error) {
+      console.error('Error logging out:', error);
+      toast({
+        title: "Error",
+        description: "Failed to log out.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (loading) {
@@ -212,6 +232,20 @@ export const Profile = () => {
                   </div>
                 </div>
               )}
+            </CardContent>
+          </Card>
+
+          {/* Logout Button */}
+          <Card className="card-enhanced">
+            <CardContent className="pt-6">
+              <Button 
+                onClick={handleLogout}
+                variant="outline"
+                className="w-full border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button>
             </CardContent>
           </Card>
 
