@@ -19,25 +19,47 @@ export const Leaderboard = () => {
 
   useEffect(() => {
     fetchLeaderboard();
+
+    // Set up realtime subscription
+    const channel = supabase
+      .channel('leaderboard-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'leaderboard' },
+        () => {
+          fetchLeaderboard();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const fetchLeaderboard = async () => {
     try {
-      // Get profiles with their totals and rank by lowest carbon footprint
+      // Get leaderboard with profile data
       const { data, error } = await supabase
-        .from('profiles')
-        .select('id, user_id, display_name, total_carbon_footprint, total_green_points')
-        .order('total_carbon_footprint', { ascending: true })
+        .from('leaderboard')
+        .select(`
+          id,
+          user_id,
+          total_footprint,
+          total_points,
+          profiles!inner(display_name)
+        `)
+        .order('total_footprint', { ascending: true })
         .limit(10);
 
       if (error) throw error;
 
-      const leaderboardData = data?.map((profile, index) => ({
-        id: profile.id,
-        user_id: profile.user_id,
-        display_name: profile.display_name || 'Anonymous',
-        total_footprint: profile.total_carbon_footprint || 0,
-        total_points: profile.total_green_points || 0,
+      const leaderboardData = data?.map((entry: any, index) => ({
+        id: entry.id,
+        user_id: entry.user_id,
+        display_name: entry.profiles?.display_name || 'Anonymous',
+        total_footprint: entry.total_footprint || 0,
+        total_points: entry.total_points || 0,
         rank: index + 1,
       })) || [];
 
