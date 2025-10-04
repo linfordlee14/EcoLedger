@@ -218,8 +218,8 @@ export type Database = {
         Row: {
           created_at: string | null
           display_name: string | null
-          email: string | null
           id: string
+          show_on_leaderboard: boolean | null
           total_carbon_footprint: number | null
           total_green_points: number | null
           updated_at: string | null
@@ -228,8 +228,8 @@ export type Database = {
         Insert: {
           created_at?: string | null
           display_name?: string | null
-          email?: string | null
           id?: string
+          show_on_leaderboard?: boolean | null
           total_carbon_footprint?: number | null
           total_green_points?: number | null
           updated_at?: string | null
@@ -238,8 +238,8 @@ export type Database = {
         Update: {
           created_at?: string | null
           display_name?: string | null
-          email?: string | null
           id?: string
+          show_on_leaderboard?: boolean | null
           total_carbon_footprint?: number | null
           total_green_points?: number | null
           updated_at?: string | null
