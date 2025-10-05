@@ -59,10 +59,15 @@ export const Dashboard = () => {
         .from('profiles')
         .select('*')
         .eq('user_id', user?.id)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
-      setProfile(data);
+      
+      if (data) {
+        setProfile(data);
+      } else {
+        console.warn('No profile found, it may still be creating');
+      }
     } catch (error) {
       console.error('Error fetching profile:', error);
     } finally {

@@ -14,10 +14,10 @@ import { useNavigate } from "react-router-dom";
 interface Profile {
   id: string;
   display_name: string;
-  email: string;
   total_carbon_footprint: number;
   total_green_points: number;
   created_at: string;
+  show_on_leaderboard: boolean;
 }
 
 export const Profile = () => {
@@ -26,7 +26,7 @@ export const Profile = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [editMode, setEditMode] = useState(false);
-  const [editData, setEditData] = useState({ display_name: "" });
+  const [editData, setEditData] = useState({ display_name: "", show_on_leaderboard: true });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -46,7 +46,10 @@ export const Profile = () => {
 
       if (error) throw error;
       setProfile(data);
-      setEditData({ display_name: data.display_name || "" });
+      setEditData({ 
+        display_name: data.display_name || "",
+        show_on_leaderboard: data.show_on_leaderboard ?? true
+      });
     } catch (error) {
       console.error('Error fetching profile:', error);
       toast({
@@ -73,7 +76,10 @@ export const Profile = () => {
     try {
       const { error } = await supabase
         .from('profiles')
-        .update({ display_name: editData.display_name.trim() })
+        .update({ 
+          display_name: editData.display_name.trim(),
+          show_on_leaderboard: editData.show_on_leaderboard
+        })
         .eq('user_id', user?.id);
 
       if (error) throw error;
@@ -198,6 +204,21 @@ export const Profile = () => {
                       placeholder="Enter your display name"
                     />
                   </div>
+                  <div className="flex items-center justify-between p-4 rounded-lg border">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="show_on_leaderboard">Show on Leaderboard</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Allow others to see your stats on the leaderboard
+                      </p>
+                    </div>
+                    <input
+                      id="show_on_leaderboard"
+                      type="checkbox"
+                      checked={editData.show_on_leaderboard}
+                      onChange={(e) => setEditData({ ...editData, show_on_leaderboard: e.target.checked })}
+                      className="h-5 w-5 rounded border-input"
+                    />
+                  </div>
                   <Button 
                     onClick={updateProfile} 
                     disabled={saving}
@@ -220,7 +241,7 @@ export const Profile = () => {
                     <Mail className="h-5 w-5 text-muted-foreground" />
                     <div>
                       <p className="font-medium">Email Address</p>
-                      <p className="text-muted-foreground">{profile.email}</p>
+                      <p className="text-muted-foreground">{user?.email}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3 p-4 rounded-lg border">
